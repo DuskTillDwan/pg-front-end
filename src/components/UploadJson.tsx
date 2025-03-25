@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { uploadFile } from "@/services/uploadFile";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function UploadJson() {
@@ -23,10 +24,7 @@ export default function UploadJson() {
     formData.append("file", file);
 
     try {
-      const response = await fetch("http://localhost:8080/api/upload", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await uploadFile(file);
 
       if (response.ok) {
         setMessage("File uploaded successfully!");
@@ -34,7 +32,7 @@ export default function UploadJson() {
         setMessage("Failed to upload file.");
       }
     } catch (error) {
-      setMessage("Error uploading file.");
+      setMessage("Error uploading file: ",  error);
     }
   };
 
@@ -44,7 +42,7 @@ export default function UploadJson() {
         <CardContent className="flex flex-col gap-4">
           <h2 className="text-xl font-bold">Upload JSON File</h2>
           <Input type="file" accept=".json" onChange={handleFileChange} />
-          <Button onClick={handleUpload} className="w-full">Upload</Button>
+          <Button onClick={handleUpload} variant="outline" >Upload</Button>
           {message && <p className="text-center text-sm mt-2">{message}</p>}
         </CardContent>
       </Card>

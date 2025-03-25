@@ -2,6 +2,7 @@
 
 # dependencies
 .idea
+ .env
 /node_modules
 /.pnp
 .pnp.*
